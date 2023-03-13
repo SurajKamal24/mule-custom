@@ -1,0 +1,27 @@
+id: Client Validation Custom Policy
+name: Client Validation Custom Policy
+description: Custom policy to allow specific clients to access specific resources and restrict the rest.
+category: Custom
+type: custom
+resourceLevelSupported: true
+encryptionSupported: false
+standalone: true
+requiredCharacteristics: []
+providedCharacteristics: []
+configuration:   
+  - propertyName: clientIdExpression
+    name: Client ID Expression
+    description: Mule Expression to be used to extract the Client ID from API requests
+    type: string
+    defaultValue: "attributes.headers['client_id']"
+    optional: false
+    sensitive: false
+    allowMultiple: false
+  - propertyName: clientIDs
+    name: Client IDs allowed
+    description: Comma separated list of allowed Client IDs
+    type: string
+    optional: false
+    sensitive: false
+    allowMultiple: true
+    defaultValue: []
