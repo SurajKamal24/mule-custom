@@ -1,6 +1,7 @@
 # client-validation-custom-policy
 
 1. Add the below profile in settings.xml to generate the required archetype for custom policy
+```
 <profile>
 	<id>archetype-repository</id>
 	<repositories>
@@ -19,8 +20,10 @@
 		</repository>
 	</repositories>
 </profile>
+```
 
 2. Run the below command to create the maven archetype project for custom policy
+```
 mvn -Parchetype-repository archetype:generate ^
 -DarchetypeGroupId=org.mule.tools ^
 -DarchetypeArtifactId=api-gateway-custom-policy-archetype ^
@@ -29,9 +32,9 @@ mvn -Parchetype-repository archetype:generate ^
 -DartifactId=<policy-name> ^
 -Dversion=1.0.0 ^
 -Dpackage=mule-policy
+```
+ord-id = Anypoint platform organization id <br>
+policy-name = Custom policy name
 
-<ord-id> = Anypoint platform organization id
-<policy-name> = Custom policy name
-
-3. mvn clean deploy - To upload the custom policy to anypoint exchange.
+3. ```mvn clean deploy``` To upload the custom policy to anypoint exchange.
 
