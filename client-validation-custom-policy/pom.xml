@@ -4,7 +4,7 @@
 
 	<groupId>6cda73de-0741-4804-910e-8a16f28034a2</groupId>
 	<artifactId>client-validation-custom-policy</artifactId>
-	<version>1.0.4</version>
+	<version>1.0.6</version>
 
 	<name>Client Validation Custom Policy</name>
 	<description>Custom policy to allow specific clients to access specific resources and restrict the rest.</description>

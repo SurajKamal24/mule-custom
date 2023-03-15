@@ -2,36 +2,24 @@
 <mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
       xmlns="http://www.mulesoft.org/schema/mule/core"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns:http-policy="http://www.mulesoft.org/schema/mule/http-policy" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+      xmlns:http-policy="http://www.mulesoft.org/schema/mule/http-policy" 
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
                http://www.mulesoft.org/schema/mule/http-policy http://www.mulesoft.org/schema/mule/http-policy/current/mule-http-policy.xsd">
-
-
     <http-policy:proxy name="{{{policyId}}}-custom-policy">
         <http-policy:source>
-        	<try>
-				<choice>
-            		{{#clientIDs}}
-                	<when expression="#[&#39;{{{.}}}&#39;=={{{clientIdExpression}}}]">
-                		<logger level="INFO" message="Valid client"/>
-                	</when>
-               		{{/clientIDs}}
-                	<otherwise >
-                		<logger level="INFO" message="Invalid client"/>
-                		<raise-error type="CUSTOM:NOT_ALLOWED" 
-                        	description="#['Access to method ' ++ attributes.method ++ ' on endpoint ' ++ attributes.rawRequestPath ++ ' is forbidden for Client ID ' ++ attributes.headers['client_id']]"/>
-               		</otherwise>      
-           		</choice>
-           		<error-handler>
-           			<on-error-propagate type="CUSTOM:NOT_ALLOWED">
-           				<logger level="INFO" message="Error Handler"/>
-           				<set-variable variableName="statusCode" value="401" />
-           				<logger level="INFO" message="Status code set"/>
-           				<set-payload value='#[%dw 2.0&#10;output application/json&#10;---&#10;error:"Invalid client"]' mimeType="application/json" />
-           				<logger level="INFO" message="Response set"/>
-           			</on-error-propagate>
-           		</error-handler>
-           	</try>
-            <http-policy:execute-next/>
+        	<choice>
+            	{{#clientIDs}}
+                <when expression="#[&#39;{{{.}}}&#39;=={{{clientIdExpression}}}]">
+                	<logger level="INFO" message="Valid client"/>
+                	<http-policy:execute-next/>
+                </when>
+               	{{/clientIDs}}
+                <otherwise >
+                	<logger level="INFO" message="Invalid client"/>
+                	<set-variable variableName="statusCode" value="401" />
+                	<set-payload value='#[%dw 2.0&#10;output application/json&#10;---&#10;error:"Invalid client"]' mimeType="application/json" />
+                </otherwise>      
+           	</choice>
         </http-policy:source>
     </http-policy:proxy>
 </mule>
